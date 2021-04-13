@@ -12,8 +12,9 @@
 - 문서화와 TDD를 이용한 코드 작성에 우선순위 
 - CI/CD를 통한 자동화를 이용하여 협업이 쉬운 프로젝트 구현 
 
-&ensp; ####  💻 개발 환경 
-&ensp; Java, Spring Boot, Gradle, MySQL, Redis
+### 📌 프로젝트 구조
+#### 💻 개발 환경 
+Java, Spring Boot, Gradle, MySQL, Redis
 
 
 ### 📌 프로젝트 중점 사항
