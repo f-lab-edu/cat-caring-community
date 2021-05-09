@@ -1,19 +1,36 @@
 package com.project.catcaring.domain.user;
 
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import org.apache.tomcat.jni.Address;
 
+@Getter
+@Builder
 public class User {
-  private Long id;
-  private String username;
-  private String password;
-  private String email;
-  private String fullName;
-  private LocationAdd location;
-  private Authority authorityCode;
-  private String accessToken;
-  private String userIntro;
-  private LocalDateTime createdAt;
-  private LocalDateTime modifiedAt;
-  private Status status;
+  private final Long id;
+  private final String username;
+  private final String password;
+  private final String email;
+  private final String fullName;
+  private final Address location;
+  private final Authority authorityCode;
+  private final String accessToken;
+  private final String userIntro;
+  private final LocalDateTime createdAt;
+  private final LocalDateTime modifiedAt;
+  private final Status status;
+
+  public enum Status {
+    MEMBER, DELETED
+  }
+
+  public enum Address {
+    JONGNO, JUNG, YONGSAN, SEONGDONG, GWANGJIN, DONGDAEMUN,
+    JUNGNANG, SEONGBUK, GANGBUK, DOBONG, NOWON, EUNPYEONG, SEODAEMUN, MAPO,
+    YANGCHEON, GANGSEO, GURO, GEUMCHEON, YEONGDEUNGPO, DONGJAK,
+    GWANAK, SEOCHO, GANGNAM, SONGPA, GANGDONG
+  }
+
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.project.catcaring.mapper.UserMapper">
+
+  <resultMap id="User" type="com.project.catcaring.domain.user.User">
+    <result property="id" column="id" />
+    <result property="username" column="username" />
+    <result property="password" column="password" />
+    <result property="fullName" column="full_name" />
+    <result property="email" column="email" />
+    <result property="location" column="location" />
+    <result property="authorityCode" column="authority_code" />
+    <result property="accessToken" column="access_token" />
+    <result property="userIntro" column="userIntro" />
+    <result property="createdAt" column="createdAt" />
+    <result property="modifiedAt" column="modifiedAt" />
+    <result property="status" column="status" />
+  </resultMap>
+
+  <insert id="insertUser" parameterType="com.project.catcaring.domain.user.User">
+    INSERT INTO USER(username, password, email, full_name, location, authority_code, status)
+    VALUES(#{username}, #{password}, #{email}, #{fullName}, #{location}, #{authorityCode}, #{status})
+  </insert>
+
+  <select id="isUniqueId" resultType="boolean">
+    SELECT EXISTS
+             (SELECT username FROM USER WHERE username = #{username})
+  </select>
+
+  <select id = "findByUsername" resultMap="User">
+    SELECT * FROM USER WHERE username = #{username}
+        AND status != 'DELETE'
+  </select>
+
+  <select id = "findByUsernameAndPassword" resultMap="User">
+    SELECT * FROM USER WHERE username = #{username} AND password = #{password}
+                         AND status != 'DELETE'
+  </select>
+
+</mapper>
