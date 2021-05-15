@@ -6,16 +6,20 @@ import com.project.catcaring.domain.user.User.Status;
 import com.project.catcaring.dto.UserCreateRequest;
 import com.project.catcaring.handler.DuplicateIdException;
 import com.project.catcaring.mapper.UserMapper;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
   private final UserMapper userMapper;
   private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
 
   public void createUser(UserCreateRequest userCreateRequest) {
     if(isUniqueId(userCreateRequest.getUsername())) {
@@ -30,7 +34,7 @@ public class UserService {
         .fullName(userCreateRequest.getFullName())
         .email(userCreateRequest.getEmail())
         .location(userCreateRequest.getLocation())
-        .authorityCode(Authority.USER_1)
+        .authorityCode(Authority.USER)
         .status(Status.MEMBER)
         .build();
 
@@ -42,11 +46,17 @@ public class UserService {
 
     return userMapper.isUniqueId(username);
   }
-
-  public User login (String username, String password) {
-    String rawPassword = PASSWORD_ENCODER.encode(password);
-    return userMapper.findByUsernameAndPassword(username, rawPassword);
+  @Transactional(readOnly = true)
+  public Optional<User> login (String username, String password) {
+    Optional<User> currentUser = Optional.ofNullable(userMapper.findByUsername(username));
+    if(currentUser.isEmpty()) return Optional.empty();
+    boolean checkPassword = BCrypt.checkpw(password, currentUser.get().getPassword());
+    if(!checkPassword) return Optional.empty();
+    return currentUser;
   }
 
+  public User getUserInfo(String username) {
+    return userMapper.findByUsername(username);
+  }
 
 }

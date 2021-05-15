@@ -3,7 +3,8 @@ package com.project.catcaring.domain.user;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.tomcat.jni.Address;
+import lombok.ToString;
+
 
 @Getter
 @Builder
@@ -17,9 +18,10 @@ public class User {
   private final Authority authorityCode;
   private final String accessToken;
   private final String userIntro;
+  private final Status status;
   private final LocalDateTime createdAt;
   private final LocalDateTime modifiedAt;
-  private final Status status;
+
 
   public enum Status {
     MEMBER, DELETED

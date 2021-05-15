@@ -1,12 +1,16 @@
 package com.project.catcaring.controller;
 
 import com.project.catcaring.domain.user.User;
+import com.project.catcaring.domain.user.User.Status;
 import com.project.catcaring.dto.UserCreateRequest;
 import com.project.catcaring.dto.UserLoginRequest;
+import com.project.catcaring.service.LoginService;
+import com.project.catcaring.service.LoginSessionService;
 import com.project.catcaring.service.UserService;
+import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.manager.util.SessionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,31 +20,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class UserController {
 
  private final UserService userService;
+ private final LoginSessionService loginSessionService;
 
 
 
-  @RequestMapping(path = {"/signup"}, method = {RequestMethod.GET , RequestMethod.POST})
+  @RequestMapping(path = {"/signup"}, method = {RequestMethod.POST})
   public void signUp(@RequestBody @NonNull UserCreateRequest userCreateRequest) {
     userService.createUser(userCreateRequest);
   }
 
-  @RequestMapping(path = {"/login"}, method = {RequestMethod.GET})
-  public HttpStatus login(@RequestBody @NonNull UserLoginRequest userLoginRequest) {
+  @RequestMapping(path = {"/login"},method = {RequestMethod.POST})
+  public HttpStatus login(@RequestBody @NonNull UserLoginRequest userLoginRequest, HttpSession session) {
       String username = userLoginRequest.getUsername();;
       String password = userLoginRequest.getPassword();
 
-      User user = userService.login(username, password);
+      Optional<User> user = userService.login(username, password);
 
-      if(user == null) {
+      if(user.isEmpty()) {
         return HttpStatus.NOT_FOUND;
 
-      } else if(User.Status.MEMBER.equals(user.getStatus())) {
-        return HttpStatus.OK;
       } else {
-        throw new RuntimeException("login error! 유저 네임 혹은 비밀번호가 일치하지 않습니다.");
+        loginSessionService.loginUser(session, user.get().getUsername());
+        return HttpStatus.OK;
       }
 
   }
@@ -49,6 +54,15 @@ public class UserController {
   public void firstPage() {
 
   }
+
+  @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET})
+  public HttpStatus logout(HttpSession session) {
+    loginSessionService.logoutUser(session);
+    return HttpStatus.OK;
+  }
+
+
+
 
 
 }

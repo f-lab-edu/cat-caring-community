@@ -6,13 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Mapper
 public interface UserMapper {
 
   void insertUser(User user);
   boolean isUniqueId(String username);
-  Optional<User> findByUsername(@Param("username")String username);
-
-  User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+  User findByUsername(@Param("username")String username);
 
 }
