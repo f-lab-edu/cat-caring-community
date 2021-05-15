@@ -4,11 +4,12 @@ import com.project.catcaring.domain.user.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserDetail implements UserDetails {
 
-  private User user;
+public class UserDetail implements UserDetails {
+  private final User user;
 
   public UserDetail(User user) {
     this.user = user;
@@ -16,10 +17,8 @@ public class UserDetail implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<GrantedAuthority> collection = new ArrayList<>();
-    collection.add( (GrantedAuthority)() -> {
-      return "ROLE_" + user.getAuthorityCode();
-    });
+    Collection<SimpleGrantedAuthority> collection = new ArrayList<>();
+    collection.add(new SimpleGrantedAuthority("ROLE_" + user.getAuthorityCode()));
     return collection;
   }
 
@@ -52,4 +51,5 @@ public class UserDetail implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
 }

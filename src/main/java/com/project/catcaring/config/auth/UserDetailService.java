@@ -15,9 +15,12 @@ public class UserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User userInfo = userMapper.findByUsername(username).orElseThrow(() -> {
-      return new UsernameNotFoundException(username +" 사용자를 찾을 수 없습니다.");
-    });
-    return (UserDetails) userInfo;
+    User userInfo = userMapper.findByUsername(username);
+    if(userInfo == null) {
+      throw new UsernameNotFoundException(username);
+    }
+    System.out.println(username);
+
+    return new UserDetail(userInfo);
   }
 }
