@@ -32,12 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests()
-        .antMatchers("/auth/**", "/image/**", "/", "/resources/**" ,"/**", "/mappers/**").permitAll()
-        .anyRequest().authenticated().and().formLogin()
-        .loginPage("/login")
-        .loginProcessingUrl("/login")
-        .defaultSuccessUrl("/");
+        .antMatchers("/auth/**", "/image/**", "/", "/resources/**" ,"/users/**", "/mappers/**").permitAll()
+        .anyRequest().authenticated();
   }
+   //로그인 인증 절차 확인
 
   @Override
   @Bean
