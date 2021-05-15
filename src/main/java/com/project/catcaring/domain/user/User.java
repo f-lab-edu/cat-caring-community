@@ -20,7 +20,7 @@ public class User {
   private final String userIntro;
   private final Status status;
   private final LocalDateTime createdAt;
-  private final LocalDateTime modifiedAt;
+  private final LocalDateTime updatedAt;
 
 
   public enum Status {
