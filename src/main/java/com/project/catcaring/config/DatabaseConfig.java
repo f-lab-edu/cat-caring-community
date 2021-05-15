@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan(basePackages = "com.project.catcaring.mapper")
 @RequiredArgsConstructor
-public class AppConfig {
+public class DatabaseConfig {
 
   private final ApplicationContext applicationContext;
 
