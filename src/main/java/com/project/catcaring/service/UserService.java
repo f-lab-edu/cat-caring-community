@@ -2,10 +2,9 @@ package com.project.catcaring.service;
 
 import com.project.catcaring.domain.user.Authority;
 import com.project.catcaring.domain.user.User;
-import com.project.catcaring.domain.user.User.Address;
 import com.project.catcaring.domain.user.User.Status;
-import com.project.catcaring.dto.UserChangeRequest;
-import com.project.catcaring.dto.UserInfoRequest;
+import com.project.catcaring.dto.user.UserChangeRequest;
+import com.project.catcaring.dto.user.UserInfoRequest;
 import com.project.catcaring.handler.DuplicateIdException;
 import com.project.catcaring.mapper.UserMapper;
 import java.util.Optional;
