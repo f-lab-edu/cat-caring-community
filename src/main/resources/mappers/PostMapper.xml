@@ -24,5 +24,10 @@
     ORDER BY created_at DESC LIMIT 1
   </select>
 
+  <delete id="deletePost" parameterType="Long">
+    DELETE FROM post
+    WHERE id = #{postId} AND user_id = #{userId}
+  </delete>
+
 
 </mapper>

@@ -11,4 +11,6 @@ public interface PostMapper {
   Long findLastPostByUserId(Long userId);
   void insertLocation(Location postLocation);
   void insertTag(Tag postTag);
+
+  boolean deletePost(Long userId, Long postId);
 }
