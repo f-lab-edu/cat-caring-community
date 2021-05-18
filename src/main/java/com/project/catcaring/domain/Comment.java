@@ -1,6 +1,6 @@
 package com.project.catcaring.domain;
 
-import com.project.catcaring.domain.user.Status;
+import com.project.catcaring.domain.Post.PostStatus;
 import java.time.LocalDateTime;
 
 public class Comment {
@@ -10,6 +10,6 @@ public class Comment {
   private Long user_id;
   private String comment;
   private LocalDateTime createdAt;
-  private Status status;
+  private PostStatus status;
 
 }
