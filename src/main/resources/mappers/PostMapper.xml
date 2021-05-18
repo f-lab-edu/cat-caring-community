@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.project.catcaring.mapper.PostMapper">
+
+  <insert id="insertPost" parameterType="com.project.catcaring.domain.Post">
+    INSERT INTO post(user_id, title, content, authority_code, status, created_at)
+    VALUES (#{userId}, #{title}, #{content}, #{authorityCode}, #{status}, NOW())
+  </insert>
+
+  <insert id="insertLocation" parameterType="com.project.catcaring.domain.Location">
+    INSERT INTO location(post_id, location, location_detail, authority_code)
+    VALUES (#{postId}, #{location}, #{locationDetail}, #{authorityCode})
+  </insert>
+
+  <insert id="insertTag" parameterType="com.project.catcaring.domain.Tag">
+    INSERT INTO tag(post_id, tag_name)
+    VALUES (#{postId}, #{tagName})
+  </insert>
+
+  <select id="findLastPostByUserId" resultType="Long">
+    SELECT id FROM post
+    WHERE user_id = #{userId}
+    ORDER BY created_at DESC LIMIT 1
+  </select>
+
+
+</mapper>
