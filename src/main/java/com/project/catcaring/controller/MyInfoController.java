@@ -1,21 +1,17 @@
 package com.project.catcaring.controller;
 
 import com.project.catcaring.domain.user.User;
-import com.project.catcaring.dto.UserChangeRequest;
-import com.project.catcaring.dto.UserInfoRequest;
-import com.project.catcaring.dto.response.UserInfoResponse;
+import com.project.catcaring.dto.user.UserChangeRequest;
+import com.project.catcaring.dto.user.response.UserInfoResponse;
 import com.project.catcaring.service.LoginSessionService;
 import com.project.catcaring.service.UserService;
-import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
