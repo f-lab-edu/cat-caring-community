@@ -6,6 +6,7 @@ import com.project.catcaring.domain.Post.PostStatus;
 import com.project.catcaring.domain.Tag;
 import com.project.catcaring.domain.user.Authority;
 import com.project.catcaring.dto.post.PostInfoRequest;
+import com.project.catcaring.handler.InvalidProcessException;
 import com.project.catcaring.mapper.PostMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,12 @@ public class PostServiceImpl implements PostService{
 
   @Override
   public void deletePost(Long userId, Long postId) {
+
+    boolean result = postMapper.deletePost(userId, postId);
+
+    if(!result) {
+      throw new InvalidProcessException("해당 포스트가 존재하지 않습니다.");
+    }
 
   }
 
