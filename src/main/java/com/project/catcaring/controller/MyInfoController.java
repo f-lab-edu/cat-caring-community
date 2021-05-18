@@ -27,14 +27,14 @@ public class MyInfoController {
 
   @GetMapping("/myInfo")
   public UserInfoResponse userInfo(HttpSession session) {
-    String username = loginSessionService.getCurrentUserId(session);
+    String username = loginSessionService.getCurrentUsername(session);
     User userInfo = userService.getUserInfo(username);
     return new UserInfoResponse(userInfo);
   }
 
   @DeleteMapping("/delete")
   public HttpStatus deleteUser(HttpSession session) {
-    String username = loginSessionService.getCurrentUserId(session);
+    String username = loginSessionService.getCurrentUsername(session);
     userService.deleteUser(username);
     log.info("회원 삭제 완료: " + username );
     loginSessionService.logoutUser(session);
@@ -47,7 +47,7 @@ public class MyInfoController {
   @PatchMapping("/update")
   public HttpStatus userInfoUpdate(@RequestBody UserChangeRequest userChangeRequest, HttpSession session) {
 
-    String username = loginSessionService.getCurrentUserId(session);
+    String username = loginSessionService.getCurrentUsername(session);
     if(username == null) {
       log.warn("회원가입이 필요한 기능입니다. ");
     } else {
