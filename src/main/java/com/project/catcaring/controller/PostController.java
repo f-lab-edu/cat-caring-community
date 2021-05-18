@@ -4,6 +4,7 @@ import com.project.catcaring.dto.post.PostInfoRequest;
 import com.project.catcaring.service.LoginSessionService;
 import com.project.catcaring.service.PostServiceImpl;
 import com.project.catcaring.service.UserService;
+import java.rmi.AccessException;
 import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +34,18 @@ public class PostController {
     postService.uploadPost(postInfoRequest, userId);
     log.info(username + "님의 포스트 업로드가 완료되었습니다. ");
     return HttpStatus.OK;
+  }
+
+  @DeleteMapping("/delete")
+  public HttpStatus deletePost(@RequestParam("postId") Long postId, HttpSession session) {
+    Long userId = userService.getUserId(loginSessionService.getCurrentUsername(session));
+    try{
+      postService.deletePost(userId, postId);
+      return HttpStatus.OK;
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      return HttpStatus.NON_AUTHORITATIVE_INFORMATION;
+    }
   }
 
 
