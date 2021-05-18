@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests()
-        .antMatchers("/auth/**", "/image/**", "/", "/resources/**" ,"/user/**", "/mappers/**").permitAll()
+        .antMatchers("/auth/**", "/posts/**", "/", "/resources/**" ,"/user/**", "/mappers/**").permitAll()
         .anyRequest().authenticated();
   }
    //로그인 인증 절차 확인
