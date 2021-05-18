@@ -25,22 +25,25 @@
   </update>
 
   <update id = "updatePassword" parameterType="String">
-    update user set
+    UPDATE USER SET
         password = #{password}, updated_at = NOW()
-        where username = #{username}
+        WHERE username = #{username}
   </update>
 
   <update id = "updateName" parameterType="String">
-    update user set
+    UPDATE USER SET
         full_name = #{fullName}, updated_at = NOW()
-        where username = #{username}
+        WHERE username = #{username}
   </update>
 
   <update id = "updateLocation" parameterType="com.project.catcaring.domain.user.User" >
-    update user set
+    UPDATE USER SET
         location = #{location}, updated_at = NOW()
-        where username = #{username}
+        WHERE username = #{username}
   </update>
 
+  <select id="getUserId" resultType="Long">
+    SELECT id FROM USER WHERE username = #{username}
+  </select>
 
 </mapper>

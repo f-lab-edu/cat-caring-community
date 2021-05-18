@@ -1,14 +1,14 @@
 package com.project.catcaring.service;
 
-import com.project.catcaring.domain.user.Authority;
 import com.project.catcaring.domain.user.User;
-import com.project.catcaring.domain.user.User.Address;
+import com.project.catcaring.domain.user.Authority;
 import com.project.catcaring.domain.user.User.Status;
-import com.project.catcaring.dto.UserChangeRequest;
-import com.project.catcaring.dto.UserInfoRequest;
+import com.project.catcaring.dto.user.UserChangeRequest;
+import com.project.catcaring.dto.user.UserInfoRequest;
 import com.project.catcaring.handler.DuplicateIdException;
 import com.project.catcaring.mapper.UserMapper;
 import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
   private final UserMapper userMapper;
   private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
 
   public void createUser(UserInfoRequest userInfoRequest) {
     if(isUniqueId(userInfoRequest.getUsername())) {
@@ -90,6 +89,10 @@ public class UserService {
       log.info(username + " 주소가 변경이 완료되었습니다.");
 
     }
+  }
+
+  public Long getUserId(String username) {
+    return userMapper.getUserId(username);
   }
 
 }

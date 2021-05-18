@@ -17,4 +17,5 @@ public interface UserMapper {
   void updatePassword(String username, String password);
   void updateName(String username, String fullName);
   void updateLocation(String username, Address location);
+  Long getUserId(String username);
 }
