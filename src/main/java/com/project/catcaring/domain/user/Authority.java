@@ -1,10 +1,16 @@
 package com.project.catcaring.domain.user;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-
 public enum Authority {
-  USER, ADMIN
+  ADMIN,
+  LEADER_MEM,
+  BOARD_MEM,
+  ACTIVE_MEM,
+  SOCIETY_MEM,
+  USER,
+  ALL
+
+
+
+
 
 }

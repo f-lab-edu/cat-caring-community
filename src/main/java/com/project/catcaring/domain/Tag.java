@@ -1,7 +1,12 @@
 package com.project.catcaring.domain;
 
+import lombok.Builder;
+
+@Builder
 public class Tag {
-  private Long post_id;
-  private String tag;
+
+  private final Long id;
+  private final Long postId;
+  private final String tagName;
 
 }
