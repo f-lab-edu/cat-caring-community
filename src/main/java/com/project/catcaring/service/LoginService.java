@@ -9,5 +9,5 @@ import javax.servlet.http.HttpSession;
 public interface LoginService {
   void loginUser(HttpSession session, String username);
   void logoutUser(HttpSession session);
-  String getCurrentUserId(HttpSession session);
+  String getCurrentUsername(HttpSession session);
 }

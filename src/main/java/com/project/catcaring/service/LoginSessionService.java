@@ -22,7 +22,7 @@ public class LoginSessionService implements LoginService{
   }
 
   @Override
-  public String getCurrentUserId(HttpSession session) {
+  public String getCurrentUsername(HttpSession session) {
     return (String)session.getAttribute(USER_ID);
   }
 }
