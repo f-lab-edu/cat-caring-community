@@ -4,17 +4,16 @@ import com.project.catcaring.dto.post.PostInfoRequest;
 import com.project.catcaring.service.LoginSessionService;
 import com.project.catcaring.service.PostServiceImpl;
 import com.project.catcaring.service.UserService;
-import java.rmi.AccessException;
 import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,13 +35,16 @@ public class PostController {
     return HttpStatus.OK;
   }
 
-  @DeleteMapping("/delete")
-  public HttpStatus deletePost(@RequestParam("postId") Long postId, HttpSession session) {
+  @DeleteMapping("/delete/{postId}")
+  public HttpStatus deletePost(@PathVariable Long postId, HttpSession session) {
     Long userId = userService.getUserId(loginSessionService.getCurrentUsername(session));
+    log.info(loginSessionService.getCurrentUsername(session) + "님이 게시물 번호 :" + postId + " 포스트를 삭제를 요청했습니다.");
     try{
       postService.deletePost(userId, postId);
+      log.info("게시물 번호: " + postId + " 포스트가 삭제되었습니다. ");
       return HttpStatus.OK;
     } catch (RuntimeException e) {
+      log.warn("게시물 번호: " + postId + " 포스트 삭제 중 오류가 발생했습니다. ");
       e.printStackTrace();
       return HttpStatus.NON_AUTHORITATIVE_INFORMATION;
     }
