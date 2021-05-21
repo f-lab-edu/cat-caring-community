@@ -5,16 +5,22 @@ import com.project.catcaring.domain.Post;
 import com.project.catcaring.domain.Post.PostStatus;
 import com.project.catcaring.domain.Tag;
 import com.project.catcaring.domain.user.Authority;
+import com.project.catcaring.dto.post.PostContentUpdate;
 import com.project.catcaring.dto.post.PostInfoRequest;
+import com.project.catcaring.dto.post.PostLocationUpdate;
+import com.project.catcaring.dto.post.PostUpdateRequest;
 import com.project.catcaring.handler.InvalidProcessException;
 import com.project.catcaring.mapper.PostMapper;
+import java.lang.reflect.Field;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class PostServiceImpl implements PostService{
 
   private final PostMapper postMapper;
@@ -66,8 +72,39 @@ public class PostServiceImpl implements PostService{
   }
 
   @Override
-  public void updatePost(PostInfoRequest postInfoRequest) {
+  public void updatePost(PostUpdateRequest postUpdateRequest, Long userId) {
 
+    PostContentUpdate updatePost = PostContentUpdate.builder().postId(postUpdateRequest.getPostId())
+                                  .userId(userId).content(postUpdateRequest.getContent())
+                                  .postAuthorityCode(postUpdateRequest.getPostAuthorityCode())
+                                  .build();
+
+    boolean result = postMapper.updateContent(updatePost);
+
+    PostLocationUpdate updateLocation = PostLocationUpdate.builder().postId(postUpdateRequest.getPostId())
+                                        .location(postUpdateRequest.getLocation())
+                                        .locationDetail(postUpdateRequest.getLocationDetail())
+                                        .locationAuthorityCode(postUpdateRequest.getLocationAuthorityCode()).build();
+
+    boolean nullChecker = allEmptyFields(updateLocation);
+    log.info("location null checker:" + nullChecker);
+
+    if(result && !nullChecker) {
+      boolean locationResult = postMapper.updateLocation(updateLocation);
+      if(!locationResult) {
+        throw new InvalidProcessException("포스트 location 정보 수정 중 오류가 발생 했습니다.");
+      }
+    } else if (!result) {
+      throw new InvalidProcessException("해당 포스트 수정 중 오류가 발생 했습니다.");
+    }
+  }
+
+  private boolean allEmptyFields(PostLocationUpdate postLocationUpdate) {
+    if(postLocationUpdate.getLocation() == null && postLocationUpdate.getLocationDetail() == null && postLocationUpdate.getLocationAuthorityCode() == null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
@@ -80,6 +117,7 @@ public class PostServiceImpl implements PostService{
     }
 
   }
+
 
 
 }
