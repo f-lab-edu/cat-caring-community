@@ -1,16 +1,19 @@
 version: 0.0
 os: linux
-
 files:
-  - source: /
-    destination: /home/ec2-user
+  - source:  /
+    destination: /home/ec2-user/build/
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
 
 hooks:
-  ApplicationStop:
-    - location: scripts/kill_process.sh
-
   BeforeInstall:
-    - location: scripts/remove_before.sh
-
+    - location: deploy-before.sh
+      runas: ec2-user
   ApplicationStart:
-    - location: scripts/run_process.sh
+    - location: deploy.sh
+      runas: ec2-user
