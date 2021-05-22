@@ -2,18 +2,17 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /home/ec2-user/build/
+    destination: /home/ubuntu/build/
 
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
 
 hooks:
   BeforeInstall:
     - location: deploy-before.sh
-      runas: ec2-user
+      runas: ubuntu
   ApplicationStart:
     - location: deploy.sh
-      runas: ec2-user
+      runas: ubuntu
