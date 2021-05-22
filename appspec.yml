@@ -13,6 +13,7 @@ hooks:
   BeforeInstall:
     - location: deploy-before.sh
       runas: ubuntu
+      
   ApplicationStart:
     - location: deploy.sh
       runas: ubuntu
