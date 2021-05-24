@@ -72,10 +72,14 @@ public class PostController {
     return HttpStatus.OK;
   }
 
-  @GetMapping("/{pageId}")
-  public List<PostListInfo> getPostLists(@PathVariable("pageId") int page) {
-    PageRequest pageRequest = PageRequest.builder().page(page).build();
-    return postService.findPostLists(pageRequest);
+  @GetMapping("/page/{pageId}")
+  public Object getPostLists(@PathVariable("pageId") int page) {
+    try {
+      PageRequest pageRequest = PageRequest.builder().page(page).build();
+      return postService.findPostLists(pageRequest);
+    } catch (RuntimeException e) {
+      return HttpStatus.NOT_FOUND;
+    }
   }
 
 
