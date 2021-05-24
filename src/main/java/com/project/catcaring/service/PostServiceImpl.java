@@ -5,8 +5,10 @@ import com.project.catcaring.domain.Post;
 import com.project.catcaring.domain.Post.PostStatus;
 import com.project.catcaring.domain.Tag;
 import com.project.catcaring.domain.user.Authority;
+import com.project.catcaring.dto.post.PageRequest;
 import com.project.catcaring.dto.post.PostContentUpdate;
 import com.project.catcaring.dto.post.PostInfoRequest;
+import com.project.catcaring.dto.post.PostListInfo;
 import com.project.catcaring.dto.post.PostLocationUpdate;
 import com.project.catcaring.dto.post.PostUpdateRequest;
 import com.project.catcaring.handler.InvalidProcessException;
@@ -15,7 +17,10 @@ import java.lang.reflect.Field;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -67,8 +72,9 @@ public class PostServiceImpl implements PostService{
   }
 
   @Override
-  public List<Post> viewPost(Long postId) {
-    return null;
+  @Transactional(readOnly = true)
+  public List<PostListInfo> findPostLists(PageRequest page) {
+    return postMapper.findAllPosts(page);
   }
 
   @Override
