@@ -32,9 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests()
-        .antMatchers("/auth/**", "/posts/**", "/", "/comment/**" ,"/user/**", "/mappers/**").permitAll()
-        .anyRequest().authenticated();
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers("/auth/**", "/posts/**", "/", "/comment/**" ,"/user/**", "/mappers/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated();
   }
    //로그인 인증 절차 확인
 
