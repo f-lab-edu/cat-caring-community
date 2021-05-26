@@ -1,4 +1,4 @@
-package com.project.catcaring.dto.user;
+package com.project.catcaring.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
