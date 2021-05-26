@@ -18,10 +18,22 @@
         AND status != 'DELETE'
   </select>
 
-  <update id = "deleteUser" parameterType="String">
+  <select id = "findByUserId" resultType="com.project.catcaring.domain.user.User">
+    SELECT * FROM USER WHERE id = #{userId}
+                         AND status != 'DELETE'
+  </select>
+
+  <update id = "deleteUser">
     update user set
         status = 'DELETE', updated_at = NOW()
-        where username = #{username}
+        where id = #{userId}
+  </update>
+
+  <update id = "update" parameterType="com.project.catcaring.domain.user.User">
+    update user set
+                  full_name = #{fullName}, password = #{password},
+                  location = #{location}, updated_at = NOW()
+    where id = #{id}
   </update>
 
 </mapper>
