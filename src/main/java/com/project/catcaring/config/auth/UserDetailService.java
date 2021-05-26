@@ -1,7 +1,7 @@
 package com.project.catcaring.config.auth;
 
-import com.project.catcaring.domain.user.User;
 import com.project.catcaring.mapper.UserMapper;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,12 +15,10 @@ public class UserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User userInfo = userMapper.findByUsername(username);
-    if(userInfo == null) {
-      throw new UsernameNotFoundException(username);
-    }
-    System.out.println(username);
 
-    return new UserDetail(userInfo);
+    return (UserDetails) Optional.ofNullable(userMapper.findByUsername(username))
+            .orElseThrow(() -> new UsernameNotFoundException(username));
+
   }
+
 }

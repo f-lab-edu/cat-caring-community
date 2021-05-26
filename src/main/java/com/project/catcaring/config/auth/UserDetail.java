@@ -10,16 +10,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetail implements UserDetails {
   private final User user;
+  private final Collection<SimpleGrantedAuthority> authorities;
 
   public UserDetail(User user) {
     this.user = user;
+    this.authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getAuthorityCode()));
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<SimpleGrantedAuthority> collection = new ArrayList<>();
-    collection.add(new SimpleGrantedAuthority("ROLE_" + user.getAuthorityCode()));
-    return collection;
+    return this.authorities;
   }
 
   @Override

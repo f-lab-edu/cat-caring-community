@@ -1,4 +1,4 @@
-package com.project.catcaring.dto;
+package com.project.catcaring.dto.user;
 
 import com.project.catcaring.domain.user.User.Address;
 import lombok.Getter;
