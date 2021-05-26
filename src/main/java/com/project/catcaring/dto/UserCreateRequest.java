@@ -1,14 +1,12 @@
-package com.project.catcaring.dto.user;
+package com.project.catcaring.dto;
 
 import com.project.catcaring.domain.user.User.Address;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-@Builder
-public class UserInfoRequest {
+public class UserCreateRequest {
   private final String username;
   private final String password;
   private final String email;

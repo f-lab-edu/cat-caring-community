@@ -24,4 +24,23 @@
         where username = #{username}
   </update>
 
+  <update id = "updatePassword" parameterType="String">
+    update user set
+        password = #{password}, updated_at = NOW()
+        where username = #{username}
+  </update>
+
+  <update id = "updateName" parameterType="String">
+    update user set
+        full_name = #{fullName}, updated_at = NOW()
+        where username = #{username}
+  </update>
+
+  <update id = "updateLocation" parameterType="com.project.catcaring.domain.user.User" >
+    update user set
+        location = #{location}, updated_at = NOW()
+        where username = #{username}
+  </update>
+
+
 </mapper>

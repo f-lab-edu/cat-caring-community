@@ -1,4 +1,4 @@
-package com.project.catcaring.dto.user.response;
+package com.project.catcaring.dto.response;
 
 import com.project.catcaring.domain.user.User;
 import lombok.Getter;
