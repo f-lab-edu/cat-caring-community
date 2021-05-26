@@ -9,20 +9,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 
 public class LoginSessionService implements LoginService{
+
+  private final HttpSession session;
   private static final String USER_ID = "USER_ID";
 
   @Override
-  public void loginUser(HttpSession session, String username) {
-    session.setAttribute(USER_ID, username);
+  public void loginUser(Long userId) {
+    session.setAttribute(USER_ID, userId);
   }
 
   @Override
-  public void logoutUser(HttpSession session) {
+  public void logoutUser() {
     session.removeAttribute(USER_ID);
   }
 
   @Override
-  public String getCurrentUserId(HttpSession session) {
-    return (String)session.getAttribute(USER_ID);
+  public Long getCurrentUserId() {
+    return (Long)session.getAttribute(USER_ID);
   }
 }
