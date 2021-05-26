@@ -1,4 +1,4 @@
-package com.project.catcaring.service;
+package com.project.catcaring.service.user;
 
 /**
  *  로그인은 세션 방식 혹은 토큰 방식 여러 형태로 구현이 가능하기 때문에 LoginSerive 인터페이스를 통해
