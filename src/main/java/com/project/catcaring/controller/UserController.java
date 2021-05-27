@@ -5,7 +5,7 @@ import static com.project.catcaring.handler.HttpResponses.*;
 import com.project.catcaring.domain.user.User;
 import com.project.catcaring.dto.user.UserInfoRequest;
 import com.project.catcaring.dto.user.UserLoginRequest;
-import com.project.catcaring.service.LoginSessionService;
+import com.project.catcaring.service.user.LoginSessionService;
 import com.project.catcaring.service.UserService;
 import java.util.Optional;
 import lombok.NonNull;
