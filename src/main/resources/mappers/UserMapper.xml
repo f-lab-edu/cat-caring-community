@@ -18,32 +18,22 @@
         AND status != 'DELETE'
   </select>
 
-  <update id = "deleteUser" parameterType="String">
+  <select id = "findByUserId" resultType="com.project.catcaring.domain.user.User">
+    SELECT * FROM USER WHERE id = #{userId}
+                         AND status != 'DELETE'
+  </select>
+
+  <update id = "deleteUser">
     update user set
         status = 'DELETE', updated_at = NOW()
-        where username = #{username}
+        where id = #{userId}
   </update>
 
-  <update id = "updatePassword" parameterType="String">
-    UPDATE USER SET
-        password = #{password}, updated_at = NOW()
-        WHERE username = #{username}
+  <update id = "update" parameterType="com.project.catcaring.domain.user.User">
+    update user set
+                  full_name = #{fullName}, password = #{password},
+                  location = #{location}, updated_at = NOW()
+    where id = #{id}
   </update>
-
-  <update id = "updateName" parameterType="String">
-    UPDATE USER SET
-        full_name = #{fullName}, updated_at = NOW()
-        WHERE username = #{username}
-  </update>
-
-  <update id = "updateLocation" parameterType="com.project.catcaring.domain.user.User" >
-    UPDATE USER SET
-        location = #{location}, updated_at = NOW()
-        WHERE username = #{username}
-  </update>
-
-  <select id="getUserId" resultType="Long">
-    SELECT id FROM USER WHERE username = #{username}
-  </select>
 
 </mapper>
