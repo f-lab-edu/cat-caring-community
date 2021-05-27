@@ -1,6 +1,5 @@
-package com.project.catcaring.service;
+package com.project.catcaring.service.user;
 
-import com.project.catcaring.domain.user.User;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
