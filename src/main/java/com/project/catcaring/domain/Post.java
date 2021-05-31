@@ -36,5 +36,4 @@ public class Post {
         .content(postInfoRequest.getContent()).authorityCode(authority)
         .status(PostStatus.CREATED).build();
   }
-
 }
