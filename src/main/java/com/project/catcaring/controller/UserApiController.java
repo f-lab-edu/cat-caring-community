@@ -37,13 +37,13 @@ public class UserApiController {
   public ResponseEntity<String> deleteUser() {
       userServiceImpl.deleteUser(loginSessionService.getCurrentUserId());
       loginSessionService.logoutUser();
-      return RESPONSE_PROCESSED;
+      return RESPONSE_OK;
   }
 
   @PatchMapping
   @CheckUserProcess
   public ResponseEntity<String> updateUser(@RequestBody UserChangeRequest userChangeRequest) {
       userServiceImpl.updateUserInfo(userChangeRequest, loginSessionService.getCurrentUserId());
-    return RESPONSE_PROCESSED;
+    return RESPONSE_OK;
   }
 }
