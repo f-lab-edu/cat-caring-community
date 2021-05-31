@@ -1,38 +1,30 @@
 package com.project.catcaring.controller;
 
+import static com.project.catcaring.handler.HttpResponses.*;
+
 import com.project.catcaring.dto.post.PostInfoRequest;
-import com.project.catcaring.service.LoginSessionService;
+import com.project.catcaring.service.user.LoginSessionService;
 import com.project.catcaring.service.PostServiceImpl;
-import com.project.catcaring.service.UserService;
-import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
   private final PostServiceImpl postService;
-  private final UserService userService;
   private final LoginSessionService loginSessionService;
 
-  @PostMapping("/save")
-  public HttpStatus savePost( @RequestBody @NonNull PostInfoRequest postInfoRequest, HttpSession session) {
-    String username = loginSessionService.getCurrentUsername(session);
-    Long userId = userService.getUserId(username);
-    log.info(username + "님 (userId: " + userId + ") 의 포스트 업로드를 시작합니다. ");
-    postService.uploadPost(postInfoRequest, userId);
-    log.info(username + "님의 포스트 업로드가 완료되었습니다. ");
-    return HttpStatus.OK;
+  @PostMapping
+  public ResponseEntity<String> savePost( @RequestBody @NonNull PostInfoRequest postInfoRequest) {
+    postService.uploadPost(postInfoRequest, loginSessionService.getCurrentUserId());
+    return RESPONSE_OK;
   }
-
-
 }
