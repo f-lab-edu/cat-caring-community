@@ -14,10 +14,9 @@ public class PostInfoRequest {
   private Authority postAuthorityCode;
   @Nullable
   private List<String> tagNames;
-  private Address location; //enum
+  private Address location;
   @Nullable
   private String locationDetail;
   @Nullable
   private Authority locationAuthorityCode;
-
 }
