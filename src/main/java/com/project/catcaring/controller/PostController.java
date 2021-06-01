@@ -1,14 +1,17 @@
 package com.project.catcaring.controller;
 
+import static com.project.catcaring.handler.HttpResponses.*;
+
 import com.project.catcaring.dto.post.PostInfoRequest;
-import com.project.catcaring.service.LoginSessionService;
+import com.project.catcaring.handler.ProcessErrorException;
+import com.project.catcaring.service.user.LoginSessionService;
 import com.project.catcaring.service.PostServiceImpl;
-import com.project.catcaring.service.UserService;
 import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,38 +20,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
   private final PostServiceImpl postService;
-  private final UserService userService;
   private final LoginSessionService loginSessionService;
 
-  @PostMapping("/save")
-  public HttpStatus savePost( @RequestBody @NonNull PostInfoRequest postInfoRequest, HttpSession session) {
-    String username = loginSessionService.getCurrentUsername(session);
-    Long userId = userService.getUserId(username);
-    log.info(username + "님 (userId: " + userId + ") 의 포스트 업로드를 시작합니다. ");
-    postService.uploadPost(postInfoRequest, userId);
-    log.info(username + "님의 포스트 업로드가 완료되었습니다. ");
-    return HttpStatus.OK;
+  @PostMapping
+  public ResponseEntity<String> savePost(@RequestBody @NonNull PostInfoRequest postInfoRequest) {
+    postService.uploadPost(postInfoRequest, loginSessionService.getCurrentUserId());
+    return RESPONSE_OK;
   }
 
-  @DeleteMapping("/delete/{postId}")
-  public HttpStatus deletePost(@PathVariable Long postId, HttpSession session) {
-    Long userId = userService.getUserId(loginSessionService.getCurrentUsername(session));
-    log.info(loginSessionService.getCurrentUsername(session) + "님이 게시물 번호 :" + postId + " 포스트를 삭제를 요청했습니다.");
-    try{
-      postService.deletePost(userId, postId);
-      log.info("게시물 번호: " + postId + " 포스트가 삭제되었습니다. ");
-      return HttpStatus.OK;
-    } catch (RuntimeException e) {
-      log.warn("게시물 번호: " + postId + " 포스트 삭제 중 오류가 발생했습니다. ");
-      e.printStackTrace();
-      return HttpStatus.NON_AUTHORITATIVE_INFORMATION;
-    }
+  @DeleteMapping("/{postId}")
+  public ResponseEntity<String> deletePost(@PathVariable Long postId) {
+    postService.deletePost(loginSessionService.getCurrentUserId(), postId);
+    return RESPONSE_OK;
   }
-
-
 }
