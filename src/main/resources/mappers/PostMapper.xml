@@ -23,4 +23,9 @@
     WHERE user_id = #{userId}
     ORDER BY created_at DESC LIMIT 1
   </select>
+
+  <update id="deletePost">
+    update post set status = 'DELETED', modified_at = NOW()
+    where id = #{postId} and user_id = #{userId}
+  </update>
 </mapper>
