@@ -13,12 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@EnableWebSecurity //시큐리티 필터 추가
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserDetailService userDetailService;
+
   @Bean
   public BCryptPasswordEncoder encodePWD() {
     return new BCryptPasswordEncoder();
