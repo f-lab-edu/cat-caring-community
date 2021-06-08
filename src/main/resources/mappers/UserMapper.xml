@@ -2,24 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace= "com.project.catcaring.mapper.UserMapper">
-  <insert id="insertUser" parameterType="com.project.catcaring.domain.user.User">
+
+  <resultMap id="UserInfo" type="com.project.catcaring.domain.User">
+    <result column="id" property="id"/>
+    <result column="username" property="username"/>
+    <result column="password" property="password"/>
+    <result column="email" property="email"/>
+    <result column="full_name" property="fullName"/>
+    <result column="location" property="location"/>
+    <result column="authority_code" property="memberShipStatus"/>
+    <result column="user_intro" property="userIntro"/>
+    <result column="access_token" property="accessToken"/>
+    <result column="user_status" property="userStatus"/>
+    <result column="created_at" property="createdAt"/>
+    <result column="updated_at" property="updatedAt"/>
+  </resultMap>
+
+  <insert id="insertUser" parameterType="com.project.catcaring.domain.User">
     INSERT INTO USER(username, password, email, full_name, location, authority_code, status)
-    VALUES(#{username}, #{password}, #{email}, #{fullName}, #{location}, #{authorityCode}, #{status})
+    VALUES(#{username}, #{password}, #{email}, #{fullName}, #{location}, #{memberShipStatus}, #{userStatus})
   </insert>
 
-  <select id="isUniqueId" resultType="boolean">
+  <select id="isUniqueUsername" resultType="boolean">
     SELECT EXISTS
-             (SELECT username FROM USER WHERE username = #{username})
+    (SELECT username FROM USER WHERE username = #{username})
   </select>
 
-  <select id = "findByUsername" resultType="com.project.catcaring.domain.user.User">
+  <select id = "findByUsername" resultMap="UserInfo">
     SELECT * FROM USER WHERE username = #{username}
-        AND status != 'DELETE'
+    AND status != 'DELETE'
   </select>
 
-  <update id = "deleteUser" parameterType="String">
+  <select id = "findByUserId" resultMap="UserInfo">
+    SELECT * FROM USER WHERE id = #{userId}
+    AND status != 'DELETE'
+  </select>
+
+  <update id = "deleteUser">
     update user set
-        status = 'DELETE', updated_at = NOW()
-        where username = #{username}
+    status = 'DELETE', updated_at = NOW()
+    where id = #{userId}
+  </update>
+
+  <update id = "updateUser">
+    update user set
+    full_name = #{fullName}, password = #{password},
+    location = #{location}, updated_at = NOW()
+    where id = #{id}
   </update>
 </mapper>
