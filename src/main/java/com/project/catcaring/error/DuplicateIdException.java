@@ -1,4 +1,4 @@
-package com.project.catcaring.handler;
+package com.project.catcaring.error;
 
 import org.springframework.http.HttpStatus;
 
