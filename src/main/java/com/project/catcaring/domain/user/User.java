@@ -1,6 +1,7 @@
 package com.project.catcaring.domain.user;
 
-import com.project.catcaring.dto.user.UserInfoRequest;
+import com.project.catcaring.dto.user.request.UserInfoRequest;
+import com.project.catcaring.dto.user.request.UserChangeRequest;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Builder
 @RequiredArgsConstructor
 public class User {
+
   private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
   private final Long id;
@@ -19,25 +21,13 @@ public class User {
   private final String password;
   private final String email;
   private final String fullName;
-  private final Address location;
-  private final Authority authorityCode;
+  private final Location location;
+  private final MemberShip memberShipStatus;
   private final String accessToken;
   private final String userIntro;
-  private final Status status;
+  private final Status userStatus;
   private final LocalDateTime createdAt;
   private final LocalDateTime updatedAt;
-
-
-  public enum Status {
-    MEMBER, DELETED
-  }
-
-  public enum Address {
-    JONGNO, JUNG, YONGSAN, SEONGDONG, GWANGJIN, DONGDAEMUN,
-    JUNGNANG, SEONGBUK, GANGBUK, DOBONG, NOWON, EUNPYEONG, SEODAEMUN, MAPO,
-    YANGCHEON, GANGSEO, GURO, GEUMCHEON, YEONGDEUNGPO, DONGJAK,
-    GWANAK, SEOCHO, GANGNAM, SONGPA, GANGDONG
-  }
 
   public static User generate(UserInfoRequest userInfoRequest) {
     return User.builder().username(userInfoRequest.getUsername())
@@ -45,8 +35,45 @@ public class User {
         .fullName(userInfoRequest.getFullName())
         .email(userInfoRequest.getEmail())
         .location(userInfoRequest.getLocation())
-        .authorityCode(Authority.USER)
-        .status(Status.MEMBER)
+        .memberShipStatus(MemberShip.DEFAULT_MEMBER)
+        .userStatus(Status.MEMBER)
         .build();
+  }
+
+  public static User modify(UserChangeRequest userChangeRequest, Long userId) {
+    return User.builder()
+        .id(userId)
+        .password(PASSWORD_ENCODER.encode(userChangeRequest.getPassword()))
+        .fullName(userChangeRequest.getFullName())
+        .location(userChangeRequest.getLocation()).build();
+  }
+
+  public enum MemberShip {
+
+    ADMIN,
+    LEADER_MEM,
+    BOARD_MEM,
+    ACTIVE_MEM,
+    SOCIETY_MEM,
+    DEFAULT_MEMBER,
+    ALL,
+    DELETED
+  }
+
+  public enum Status {
+
+    MEMBER, ADMIN, DELETED
+  }
+
+  public enum Location {
+
+    DOBONG, DONGDAEMUN, DONGJAK,
+    EUNPYEONG,
+    GANGBUK, GANGDONG,  GANGNAM, GANGSEO, GEUMCHEON, GURO, GWANAK, GWANGJIN,
+    JONGNO, JUNG, JUNGNANG,
+    MAPO,
+    NOWON,
+    SEOCHO, SEODAEMUN, SEONGBUK, SEONGDONG, SONGPA,
+    YANGCHEON, YEONGDEUNGPO, YONGSAN
   }
 }
