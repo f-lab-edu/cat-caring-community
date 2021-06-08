@@ -1,4 +1,4 @@
-package com.project.catcaring.domain.user;
+package com.project.catcaring.domain;
 
 import com.project.catcaring.dto.user.request.UserInfoRequest;
 import com.project.catcaring.dto.user.request.UserChangeRequest;
