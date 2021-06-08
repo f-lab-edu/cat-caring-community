@@ -1,20 +1,25 @@
 package com.project.catcaring.mapper;
 
-import com.project.catcaring.domain.Location;
+import com.project.catcaring.domain.Address;
 import com.project.catcaring.domain.Post;
 import com.project.catcaring.domain.Tag;
-import com.project.catcaring.dto.post.PostContentUpdate;
-import com.project.catcaring.dto.post.PostLocationUpdate;
+import com.project.catcaring.dto.post.PageRequest;
+import com.project.catcaring.dto.post.PostListInfo;
+import com.project.catcaring.dto.post.PostUpdateInfo;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PostMapper {
-  void insertPost(Post newPost);
-  Long findLastPostByUserId(Long userId);
-  void insertLocation(Location postLocation);
-  void insertTag(Tag postTag);
 
-  boolean deletePost(Long userId, Long postId);
-  boolean updateContent(PostContentUpdate postContentUpdate);
-  boolean updateLocation(PostLocationUpdate postLocationUpdate);
+  void insertPostInfo(Post newPost);
+  Long findLastPostByUserId(Long userId);
+  void insertLocationInfo(Address postLocation);
+  void insertTagInfo(Tag postTag);
+
+  void deletePost(Long userId, Long postId);
+  boolean updatePostContent(PostUpdateInfo postContentUpdate);
+  void updatePostLocation(PostUpdateInfo postLocationUpdate);
+
+  List<PostListInfo> findAllPosts(PageRequest page);
 }
