@@ -1,8 +1,7 @@
 package com.project.catcaring.service.user;
 
 import com.project.catcaring.domain.user.User;
-import com.project.catcaring.dto.user.UserChangeRequest;
-import com.project.catcaring.dto.user.UserInfoRequest;
+import com.project.catcaring.dto.user.request.UserInfoRequest;
 import com.project.catcaring.handler.DuplicateIdException;
 import com.project.catcaring.mapper.UserMapper;
 import java.util.Optional;
@@ -20,6 +19,7 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
 
   @Override
+  @Transactional
   public void createUser(UserInfoRequest userInfoRequest) {
     if(isUniqueId(userInfoRequest.getUsername())) {
       throw new DuplicateIdException();
