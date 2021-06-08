@@ -1,8 +1,8 @@
 package com.project.catcaring.service.user;
 
-import com.project.catcaring.domain.user.User;
+import com.project.catcaring.domain.User;
 import com.project.catcaring.dto.user.request.UserInfoRequest;
-import com.project.catcaring.handler.DuplicateIdException;
+import com.project.catcaring.error.DuplicateIdException;
 import com.project.catcaring.mapper.UserMapper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
   @Transactional(readOnly = true)
   public boolean isUniqueId(String username) {
-    return userMapper.isUniqueId(username);
+    return userMapper.isUniqueUsername(username);
   }
 
   @Override

@@ -1,12 +1,12 @@
 package com.project.catcaring.controller;
 
-import static com.project.catcaring.handler.HttpResponses.*;
+import static com.project.catcaring.error.HttpResponses.*;
 
 import com.project.catcaring.aop.annotation.CheckLogin;
-import com.project.catcaring.domain.user.User;
+import com.project.catcaring.domain.User;
 import com.project.catcaring.dto.user.request.UserInfoRequest;
 import com.project.catcaring.dto.user.request.UserLoginRequest;
-import com.project.catcaring.handler.LoginErrorException;
+import com.project.catcaring.error.LoginErrorException;
 import com.project.catcaring.service.user.LoginService;
 import com.project.catcaring.service.user.UserService;
 import java.util.Optional;
