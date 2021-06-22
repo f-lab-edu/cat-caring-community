@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.catcaring.mapper.CommentMapper">
+
+  <insert id="saveComment" parameterType="com.project.catcaring.domain.Comment">
+    INSERT INTO comment(post_id, user_id, comment, status, created_at)
+    VALUES (#{postId},#{userId}, #{comment}, #{status}, NOW())
+  </insert>
+
+  <select id="isExistingComment" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM comment WHERE id = #{parentId})
+  </select>
+
+  <insert id="saveNestedComment" parameterType="com.project.catcaring.domain.Comment">
+    INSERT INTO comment(post_id, comment_parent, user_id, comment, status, created_at)
+    VALUES (#{postId}, #{commentParentId},#{userId}, #{comment}, #{status}, NOW())
+  </insert>
+
+  <update id="deleteComment" parameterType="Long">
+    UPDATE comment SET status = 'DELETED'
+    WHERE (id =  #{commentId} and user_id = #{userId})
+    OR comment_parent = #{commentId};
+  </update>
+
+  <select id="viewComments" parameterType="Long" resultType="com.project.catcaring.domain.Comment">
+    SELECT * FROM comment WHERE post_id = #{postId} AND status != 'DELETED'
+  </select>
+</mapper>
