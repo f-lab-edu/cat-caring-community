@@ -1,6 +1,6 @@
 package com.project.catcaring.config.auth;
 
-import com.project.catcaring.domain.user.User;
+import com.project.catcaring.domain.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,17 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 public class UserDetail implements UserDetails {
+
   private final User user;
+  private final Collection<SimpleGrantedAuthority> authorities;
 
   public UserDetail(User user) {
     this.user = user;
+    this.authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserStatus()));
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<SimpleGrantedAuthority> collection = new ArrayList<>();
-    collection.add(new SimpleGrantedAuthority("ROLE_" + user.getAuthorityCode()));
-    return collection;
+    return this.authorities;
   }
 
   @Override
@@ -51,5 +53,4 @@ public class UserDetail implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
-
 }
