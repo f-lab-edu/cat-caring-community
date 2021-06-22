@@ -1,24 +1,19 @@
 package com.project.catcaring.dto.post;
 
-import com.project.catcaring.domain.user.Authority;
-import com.project.catcaring.domain.user.User.Address;
+import com.project.catcaring.domain.User;
 import lombok.Getter;
-import reactor.util.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 @Getter
 public class PostUpdateRequest {
 
-  private Long postId;
-
   private String content;
   @Nullable
-  private Authority postAuthorityCode;
-
+  private User.MemberShip postAuthorityCode;
   @Nullable
-  private Address location; //enum
+  private User.Location location;
   @Nullable
   private String locationDetail;
   @Nullable
-  private Authority locationAuthorityCode;
-
+  private User.MemberShip locationAuthorityCode;
 }
