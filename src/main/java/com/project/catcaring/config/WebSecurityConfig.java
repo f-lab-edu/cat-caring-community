@@ -12,13 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @Configuration
-@EnableWebSecurity //시큐리티 필터 추가
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserDetailService userDetailService;
+
   @Bean
   public BCryptPasswordEncoder encodePWD() {
     return new BCryptPasswordEncoder();
@@ -31,11 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable().authorizeRequests()
-        .antMatchers("/auth/**", "/posts/**", "/", "/resources/**" ,"/user/**", "/mappers/**").permitAll()
-        .anyRequest().authenticated();
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers("/auth/**", "/posts/**", "/", "/comments/**" ,"/users/**", "/mappers/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated();
   }
-   //로그인 인증 절차 확인
 
   @Override
   @Bean
