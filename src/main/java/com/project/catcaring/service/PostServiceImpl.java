@@ -4,15 +4,17 @@ import com.project.catcaring.domain.Address;
 import com.project.catcaring.domain.Post;
 import com.project.catcaring.domain.Tag;
 import com.project.catcaring.dto.post.PageRequest;
+import com.project.catcaring.dto.post.PostDetailResponse;
 import com.project.catcaring.dto.post.PostInfoRequest;
 import com.project.catcaring.dto.post.PostListInfo;
 import com.project.catcaring.dto.post.PostUpdateInfo;
 import com.project.catcaring.dto.post.PostUpdateRequest;
+import com.project.catcaring.error.InvalidContentIdError;
 import com.project.catcaring.error.UserIdMistmatchException;
 import com.project.catcaring.mapper.PostMapper;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,5 +63,16 @@ public class PostServiceImpl implements PostService{
   @Transactional
   public void deletePost(Long userId, Long postId) {
     postMapper.deletePost(userId, postId);
+  }
+
+  @Override
+  @Transactional
+  public Optional<PostDetailResponse> viewPostDetail(Long postId) {
+    Post postInfo = postMapper.viewPostDetail(postId);
+    if (postInfo != null) {
+      return PostDetailResponse.generateDetail(postInfo);
+    } else {
+      throw new InvalidContentIdError();
+    }
   }
 }

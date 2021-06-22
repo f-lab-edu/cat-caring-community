@@ -6,8 +6,10 @@ import com.project.catcaring.dto.post.PostInfoRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class Post {
 
   private final Long id;

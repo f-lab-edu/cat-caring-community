@@ -10,6 +10,15 @@
     <result property="createdAt" column="created_at" />
   </resultMap>
 
+  <resultMap id="PostMap" type="com.project.catcaring.domain.Post">
+    <result property="id" column="id" />
+    <result property="userId" column="user_id" />
+    <result property="title" column="title" />
+    <result property="content" column="content" />
+    <result property="authorityCode" column="authority_code" />
+    <result property="createdAt" column="created_at" />
+  </resultMap>
+
   <insert id="insertPostInfo" parameterType="com.project.catcaring.domain.Post">
     INSERT INTO post(user_id, title, content, authority_code, status, created_at)
     VALUES (#{userId}, #{title}, #{content}, #{authorityCode}, #{status}, NOW())
@@ -31,24 +40,25 @@
     VALUES (#{postId}, #{tagName})
   </insert>
 
-  <delete id="deletePost" parameterType="Long">
-    DELETE FROM post
+  <update id="deletePost" parameterType="Long">
+    UPDATE post SET
+      status = 'DELETED'
     WHERE id = #{postId} AND user_id = #{userId}
-  </delete>
+  </update>
 
   <update id="updatePostContent" parameterType="com.project.catcaring.dto.post.PostUpdateInfo">
-    update post set
+    UPDATE post SET
     content = #{content}
     <if test = "postAuthorityCode != null">
       , authority_code = #{postAuthorityCode}
     </if>
     , modified_at = NOW()
     , status = 'MODIFIED'
-    where id = #{postId} and user_id = #{userId}
+    WHERE id = #{postId} AND user_id = #{userId}
   </update>
 
   <update id="updatePostLocation" parameterType="com.project.catcaring.dto.post.PostUpdateInfo">
-    update address set
+    UPDATE address SET
     <if test = "location != null">
       location = #{location}
     </if>
@@ -64,16 +74,24 @@
       </if>
       authority_code = #{locationAuthorityCode}
     </if>
-    where post_id = #{postId}
+    WHERE post_id = #{postId}
   </update>
 
   <select id="findAllPosts" parameterType="com.project.catcaring.dto.post.PageRequest"  resultMap="PostListMap">
-    select id, user_id, title, created_at
-    from cat_community.post
-    orders limit #{size} offset #{offset}
+    SELECT id, user_id, title, created_at
+    FROM cat_community.post
+    orders LIMIT #{size} OFFSET #{offset}
   </select>
 
-  <select id="existingPost" resultType="boolean">
-    select exists(select 1 from post where id = #{postId})
+  <select id="isExistingPost" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM post WHERE id = #{postId})
+  </select>
+
+  <select id="viewPostDetail" parameterType="Long" resultMap="PostMap">
+    SELECT * FROM post WHERE id = #{postId}
+  </select>
+
+  <select id="getTagInfo" parameterType="Long" resultType="com.project.catcaring.domain.Tag">
+    SELECT * FROM tag WHERE post_id = #{postId}
   </select>
 </mapper>

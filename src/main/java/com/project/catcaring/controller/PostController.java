@@ -3,12 +3,15 @@ package com.project.catcaring.controller;
 import static com.project.catcaring.error.HttpResponses.RESPONSE_OK;
 
 import com.project.catcaring.aop.annotation.CheckLogin;
-import com.project.catcaring.aop.annotation.CheckUserLoginAndPostMatch;
 import com.project.catcaring.aop.annotation.CurrentUserId;
 import com.project.catcaring.dto.post.PageRequest;
+import com.project.catcaring.dto.post.PostDetailResponse;
 import com.project.catcaring.dto.post.PostInfoRequest;
+import com.project.catcaring.dto.post.PostListInfo;
 import com.project.catcaring.dto.post.PostUpdateRequest;
-import com.project.catcaring.service.PostService;
+import com.project.catcaring.service.PostServiceImpl;
+import java.util.List;
+import java.util.Optional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/posts")
 public class PostController {
 
-  private final PostService postService;
+  private final PostServiceImpl postService;
 
   @PostMapping
   @CheckLogin
@@ -36,21 +39,26 @@ public class PostController {
   }
 
   @DeleteMapping("/{postId}")
-  @CheckUserLoginAndPostMatch
+  @CheckLogin
   public ResponseEntity<String> deletePost(@PathVariable Long postId, @CurrentUserId Long currentUserId) {
     postService.deletePost(postId, currentUserId);
     return RESPONSE_OK;
   }
 
   @PatchMapping("/{postId}")
-  @CheckUserLoginAndPostMatch
+  @CheckLogin
   public ResponseEntity<String> updatePost(@RequestBody PostUpdateRequest postUpdateRequest, @PathVariable Long postId, @CurrentUserId Long currentUserId) {
     postService.updatePost(postUpdateRequest, postId, currentUserId);
     return RESPONSE_OK;
   }
 
-  @GetMapping("/{pageId}")
-  public Object viewPostLists(@PathVariable("pageId") int page) {
-    return postService.viewPostLists(PageRequest.findScope(page));
+  @GetMapping("/page/{pageId}")
+  public ResponseEntity<List<PostListInfo>> viewPostLists(@PathVariable("pageId") int page) {
+    return ResponseEntity.ok(postService.viewPostLists(PageRequest.findScope(page)));
+  }
+
+  @GetMapping("/{postId}")
+  public Optional<PostDetailResponse> viewPost(@PathVariable("postId") Long postId) {
+    return postService.viewPostDetail(postId);
   }
 }
