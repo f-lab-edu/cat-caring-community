@@ -28,7 +28,7 @@ public class PostDetailResponse {
 
   public static Optional<PostDetailResponse> generateDetail(Post postInfo) {
     Long postId = postInfo.getId();
-    //List<Comment> commentList = Comment.viewComments(postId);
+    List<Comment> commentList = Comment.viewComments(postId);
     //List<Tag> tagList = Tag.listTags(postId);
     //Location location = Location.getInfo(postId);
 
@@ -39,7 +39,7 @@ public class PostDetailResponse {
         .authorityCode(postInfo.getAuthorityCode())
         .location(postInfo.getLocation())
         .createdAt(postInfo.getCreatedAt())
-        //.commentList(commentList)
+        .commentList(commentList)
         //.tagList(tagList)
         .build());
   }
